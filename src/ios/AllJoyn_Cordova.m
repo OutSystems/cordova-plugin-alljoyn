@@ -51,28 +51,24 @@ uint8_t dbgALLJOYN_CORDOVA = 1;
 
 @implementation AllJoyn_Cordova
 
-// Constructor for plugin class
-- (CDVPlugin*)initWithWebView:(UIWebView*)theWebView {
-    self = [super initWithWebView:theWebView];
-
+-(void)pluginInitialize {
     AJ_InfoPrintf((" -- AllJoyn Plugin Class Init\n"));
-
+    
     _connectedToBus = false;
     _proxyObjects = NULL;
     _appObjects = NULL;
     _callbackInProgress = false;
     _callbackMessagePtr = NULL;
-
+    
     _busAttachment = malloc(sizeof(AJ_BusAttachment));
     memset(_busAttachment, 0, sizeof(AJ_BusAttachment));
-
+    
     // Create a dispatcher for background tasks (msg loop, msg sending, etc. )
     _dispatchQueue = dispatch_queue_create("org.cordova.plugin.AllJoyn", NULL);
     // Dictionary for method reply handlers
     _MessageHandlers = [NSMutableDictionary dictionaryWithObjectsAndKeys: nil];
-
+    
     [self createDispatcherTimer];
-    return self;
 }
 
 -(void)connect:(CDVInvokedUrlCommand*)command {
